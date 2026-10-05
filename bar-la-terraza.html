@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Terraza Bar & Cocina — Reservas por WhatsApp</title>
+<meta name="description" content="Bar y cocina artesanal. Cocteles, platos y reservas por WhatsApp.">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,600&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --coral:#FF5C39; --mango:#FFB020; --teal:#0E8388; --teal-dark:#0B6569;
+    --plum:#3D1D2E; --cream:#FFF6EC; --cream2:#FFEDD8; --ink:#33202A;
+  }
+  *{ -webkit-tap-highlight-color:transparent; }
+  body{ font-family:'Inter',sans-serif; background:var(--cream); color:var(--ink); overflow-x:hidden; }
+  .font-display{ font-family:'Fraunces',serif; }
+  .text-coral{ color:var(--coral); } .bg-coral{ background:var(--coral); }
+  .text-teal{ color:var(--teal); } .bg-teal{ background:var(--teal); }
+  .text-mango{ color:var(--mango); } .bg-mango{ background:var(--mango); }
+
+  /* Hero: degradado atardecer alegre */
+  .hero{
+    background:
+      radial-gradient(ellipse at 15% 15%, rgba(255,176,32,.55) 0%, transparent 50%),
+      radial-gradient(ellipse at 85% 20%, rgba(255,92,57,.5) 0%, transparent 55%),
+      radial-gradient(ellipse at 50% 90%, rgba(14,131,136,.45) 0%, transparent 60%),
+      linear-gradient(160deg, #FFE3B3 0%, #FFC9A8 45%, #FFB3C0 100%);
+  }
+  .hero-title{ font-size:clamp(3rem, 9vw, 7rem); line-height:.95; letter-spacing:-.02em; }
+
+  /* Burbujas decorativas flotantes */
+  @keyframes floaty{ 0%,100%{ transform:translateY(0) rotate(0deg);} 50%{ transform:translateY(-22px) rotate(6deg);} }
+  .bubble{ animation:floaty 7s ease-in-out infinite; position:absolute; border-radius:9999px; }
+
+  /* Marquesina */
+  @keyframes marquee{ from{ transform:translateX(0);} to{ transform:translateX(-50%);} }
+  .marquee-track{ animation:marquee 24s linear infinite; }
+
+  /* Animaciones de aparición */
+  .reveal{ opacity:0; transform:translateY(30px); transition:opacity .8s ease, transform .8s ease; }
+  .reveal.visible{ opacity:1; transform:none; }
+
+  /* Tarjetas del menú */
+  .menu-card{
+    background:#fff; border:2px solid transparent; border-radius:1.5rem;
+    box-shadow:0 8px 24px -12px rgba(61,29,46,.18);
+    transition:transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+  }
+  .menu-card:hover{ transform:translateY(-6px) rotate(-.5deg); box-shadow:0 22px 44px -16px rgba(255,92,57,.35); border-color:var(--mango); }
+  .price-line{ border-bottom:2px dotted rgba(255,92,57,.5); }
+
+  /* Pestañas */
+  .tab-btn{ transition:all .3s ease; background:#fff; color:var(--plum); border:2px solid rgba(61,29,46,.15); }
+  .tab-btn.active{ background:var(--coral); color:#fff; border-color:var(--coral); transform:scale(1.05); box-shadow:0 10px 20px -8px rgba(255,92,57,.5); }
+
+  /* Botón WhatsApp pulso */
+  @keyframes pulse-ring{
+    0%{ box-shadow:0 0 0 0 rgba(37,211,102,.5);}
+    70%{ box-shadow:0 0 0 20px rgba(37,211,102,0);}
+    100%{ box-shadow:0 0 0 0 rgba(37,211,102,0);}
+  }
+  .wa-float{ animation:pulse-ring 2.4s infinite; }
+
+  /* Formularios */
+  input,select,textarea{ color-scheme:light; }
+  .field{ background:#fff; border:2px solid rgba(61,29,46,.15); border-radius:1rem; }
+  .field:focus-within, .field:focus{ border-color:var(--teal); outline:none; box-shadow:0 0 0 4px rgba(14,131,136,.15); }
+
+  ::selection{ background:var(--mango); color:var(--plum); }
+</style>
+</head>
+<body class="antialiased">
+
+<!-- ============ NAV ============ -->
+<nav class="fixed top-0 inset-x-0 z-40 backdrop-blur-md bg-[#FFF6EC]/85 border-b-2 border-[#FF5C39]/15">
+  <div class="max-w-7xl mx-auto px-5 h-16 flex items-center justify-between">
+    <a href="#inicio" data-scroll class="font-display text-xl md:text-2xl tracking-tight font-black">
+      <span class="text-coral">La Terraza</span> <span class="text-teal font-semibold">Bar & Cocina</span>
+    </a>
+    <div class="hidden md:flex items-center gap-8 text-sm font-semibold uppercase tracking-widest text-[#3D1D2E]/70">
+      <a href="#nosotros" data-scroll class="hover:text-coral transition-colors">Nosotros</a>
+      <a href="#menu" data-scroll class="hover:text-coral transition-colors">Menú</a>
+      <a href="#galeria" data-scroll class="hover:text-coral transition-colors">Ambiente</a>
+      <a href="#contacto" data-scroll class="hover:text-coral transition-colors">Contacto</a>
+    </div>
+    <a href="#reservas" data-scroll class="bg-coral text-white font-bold text-sm px-5 py-2.5 rounded-full hover:brightness-110 transition-all hover:scale-105 shadow-lg shadow-[#FF5C39]/40">
+      Reservar
+    </a>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header id="inicio" class="hero min-h-screen flex items-center justify-center relative overflow-hidden pt-16">
+  <!-- Burbujas decorativas -->
+  <div class="bubble w-24 h-24 bg-[#FF5C39]/70 top-28 left-[8%]" style="animation-delay:0s"></div>
+  <div class="bubble w-14 h-14 bg-[#0E8388]/60 top-44 right-[12%]" style="animation-delay:1.2s"></div>
+  <div class="bubble w-16 h-16 bg-[#FFB020]/80 bottom-40 left-[18%]" style="animation-delay:.6s"></div>
+  <div class="bubble w-10 h-10 bg-[#FF5C39]/60 bottom-28 right-[22%]" style="animation-delay:1.8s"></div>
+  <div class="bubble w-8 h-8 bg-[#0E8388]/50 top-1/3 left-[38%]" style="animation-delay:2.4s"></div>
+
+  <div class="relative text-center px-5 max-w-5xl mx-auto">
+    <p class="reveal inline-block bg-white/70 backdrop-blur text-plum font-bold uppercase tracking-[.35em] text-[11px] md:text-xs px-5 py-2 rounded-full shadow mb-6" style="color:var(--plum)">
+      Est. 2012 · Coctelería de autor · Cocina de temporada
+    </p>
+    <h1 class="reveal hero-title font-display font-black" style="color:var(--plum)">
+      Donde la noche<br><span class="italic text-coral">sabe mejor</span>
+    </h1>
+    <p class="reveal mt-8 max-w-xl mx-auto text-base md:text-lg font-medium leading-relaxed" style="color:#5b4150">
+      Cocteles artesanales, platos de temporada y la mejor selección de destilados.
+      Vive la experiencia y reserva tu mesa directo por WhatsApp.
+    </p>
+    <div class="reveal mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+      <a href="#menu" data-scroll class="w-full sm:w-auto bg-teal text-white font-bold px-8 py-3.5 rounded-full uppercase tracking-widest text-sm hover:brightness-110 hover:scale-105 transition-all shadow-lg shadow-[#0E8388]/40">
+        Ver el menú
+      </a>
+      <a href="#reservas" data-scroll class="w-full sm:w-auto bg-coral text-white font-bold px-8 py-3.5 rounded-full uppercase tracking-widest text-sm hover:brightness-110 hover:scale-105 transition-all inline-flex items-center justify-center gap-2 shadow-lg shadow-[#FF5C39]/40">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.5 0 1.47 1.07 2.9 1.22 3.1.15.2 2.1 3.2 5.1 4.49.71.31 1.27.49 1.7.63.72.23 1.37.2 1.88.12.57-.09 1.76-.72 2.01-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.35M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.87 9.87 0 0 0 4.79 1.22c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2"/></svg>
+        Reservar por WhatsApp
+      </a>
+    </div>
+  </div>
+
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce" style="color:var(--plum)">
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+  </div>
+</header>
+
+<!-- ============ MARQUESINA ============ -->
+<div class="overflow-hidden py-4 select-none" style="background:var(--plum)">
+  <div class="marquee-track flex whitespace-nowrap gap-10 w-max">
+    <span class="flex gap-10 text-sm font-bold uppercase tracking-[.3em] text-[#FFB020]" id="mq1"></span>
+    <span class="flex gap-10 text-sm font-bold uppercase tracking-[.3em] text-[#FFB020]" id="mq2"></span>
+  </div>
+</div>
+
+<!-- ============ NOSOTROS ============ -->
+<section id="nosotros" class="max-w-7xl mx-auto px-5 py-24 md:py-32 grid md:grid-cols-2 gap-12 items-center">
+  <div class="reveal">
+    <p class="text-teal font-bold uppercase tracking-[.35em] text-xs mb-4">Nuestra esencia</p>
+    <h2 class="font-display text-4xl md:text-5xl font-black leading-tight" style="color:var(--plum)">
+      Tradición, <span class="italic text-coral">fuego</span><br>y buena compañía
+    </h2>
+    <p class="mt-6 font-medium leading-relaxed" style="color:#5b4150">
+      Desde 2012 servimos coctelería de autor y cocina de temporada en un espacio pensado
+      para disfrutar sin prisa. Nuestro bar cuenta con más de 120 etiquetas de destilados,
+      ingredientes locales y una carta que cambia con las estaciones.
+    </p>
+    <div class="mt-10 grid grid-cols-3 gap-6">
+      <div><p class="font-display text-3xl md:text-4xl font-black text-coral" data-count="14">0</p><p class="text-xs font-bold uppercase tracking-widest mt-1" style="color:#5b4150">Años de historia</p></div>
+      <div><p class="font-display text-3xl md:text-4xl font-black text-teal" data-count="120">0</p><p class="text-xs font-bold uppercase tracking-widest mt-1" style="color:#5b4150">Destilados</p></div>
+      <div><p class="font-display text-3xl md:text-4xl font-black" style="color:var(--mango)" data-count="35">0</p><p class="text-xs font-bold uppercase tracking-widest mt-1" style="color:#5b4150">Platos y cocteles</p></div>
+    </div>
+  </div>
+  <div class="reveal grid grid-cols-2 gap-4">
+    <div class="rounded-3xl h-64 md:h-80 mt-10 shadow-xl" style="background:linear-gradient(150deg,#FFB020,#FF5C39)"></div>
+    <div class="rounded-3xl h-64 md:h-80 shadow-xl" style="background:linear-gradient(150deg,#0E8388,#5BC9BE)"></div>
+    <div class="rounded-3xl h-52 md:h-64 -mt-6 col-span-2 shadow-xl" style="background:linear-gradient(150deg,#FF5C39,#FFB020 60%,#FFE3B3)"></div>
+  </div>
+</section>
+
+<!-- ============ MENÚ ============ -->
+<section id="menu" class="py-24 md:py-32" style="background:var(--cream2)">
+  <div class="max-w-7xl mx-auto px-5">
+    <div class="reveal text-center mb-14">
+      <p class="text-teal font-bold uppercase tracking-[.35em] text-xs mb-4">La carta</p>
+      <h2 class="font-display text-4xl md:text-5xl font-black" style="color:var(--plum)">Bebidas & <span class="italic text-coral">Platos</span></h2>
+    </div>
+
+    <div class="reveal flex flex-wrap justify-center gap-3 mb-12">
+      <button class="tab-btn active font-bold text-sm uppercase tracking-widest px-6 py-2.5 rounded-full" data-tab="cocteles">Cocteles</button>
+      <button class="tab-btn font-bold text-sm uppercase tracking-widest px-6 py-2.5 rounded-full" data-tab="destilados">Destilados & Cervezas</button>
+      <button class="tab-btn font-bold text-sm uppercase tracking-widest px-6 py-2.5 rounded-full" data-tab="entrantes">Entrantes</button>
+      <button class="tab-btn font-bold text-sm uppercase tracking-widest px-6 py-2.5 rounded-full" data-tab="principales">Platos principales</button>
+      <button class="tab-btn font-bold text-sm uppercase tracking-widest px-6 py-2.5 rounded-full" data-tab="postres">Postres</button>
+    </div>
+
+    <div id="menu-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+  </div>
+</section>
+
+<!-- ============ AMBIENTE ============ -->
+<section id="galeria" class="max-w-7xl mx-auto px-5 py-24 md:py-32">
+  <div class="reveal text-center mb-12">
+    <p class="text-teal font-bold uppercase tracking-[.35em] text-xs mb-4">El ambiente</p>
+    <h2 class="font-display text-4xl md:text-5xl font-black" style="color:var(--plum)">Un lugar para <span class="italic text-coral">quedarse</span></h2>
+  </div>
+  <div class="reveal grid md:grid-cols-3 gap-4">
+    <div class="rounded-3xl h-72 shadow-xl" style="background:linear-gradient(160deg,#FF5C39,#FFB020)"></div>
+    <div class="rounded-3xl h-72 md:mt-8 shadow-xl" style="background:linear-gradient(160deg,#0E8388,#FFB020)"></div>
+    <div class="rounded-3xl h-72 shadow-xl" style="background:linear-gradient(160deg,#FFB020,#FF8FB0)"></div>
+  </div>
+  <div class="reveal mt-12 grid sm:grid-cols-3 gap-6 text-center">
+    <div class="bg-white rounded-3xl p-6 shadow-lg border-b-4" style="border-color:var(--coral)"><p class="font-display text-2xl font-black text-coral">Terraza exterior</p><p class="text-sm font-medium mt-2" style="color:#5b4150">Aire libre, luz cálida y música en vivo los viernes.</p></div>
+    <div class="bg-white rounded-3xl p-6 shadow-lg border-b-4" style="border-color:var(--teal)"><p class="font-display text-2xl font-black text-teal">Salón privado</p><p class="text-sm font-medium mt-2" style="color:#5b4150">Hasta 20 personas. Ideal celebraciones y eventos.</p></div>
+    <div class="bg-white rounded-3xl p-6 shadow-lg border-b-4" style="border-color:var(--mango)"><p class="font-display text-2xl font-black" style="color:var(--mango)">Happy hour</p><p class="text-sm font-medium mt-2" style="color:#5b4150">Martes a jueves, 6 a 8 pm. 2x1 en cocteles de la casa.</p></div>
+  </div>
+</section>
+
+<!-- ============ RESERVAS ============ -->
+<section id="reservas" class="py-24 md:py-32" style="background:linear-gradient(160deg,#FFE3B3,#FFC9A8)">
+  <div class="max-w-3xl mx-auto px-5">
+    <div class="reveal text-center mb-12">
+      <p class="text-teal font-bold uppercase tracking-[.35em] text-xs mb-4">Reserva tu mesa</p>
+      <h2 class="font-display text-4xl md:text-5xl font-black" style="color:var(--plum)">Aparta tu lugar <span class="italic text-coral">por WhatsApp</span></h2>
+      <p class="mt-4 font-medium" style="color:#5b4150">Completa los datos y te abriremos WhatsApp con tu reserva lista para enviar. Respuesta en menos de 5 minutos.</p>
+    </div>
+
+    <form id="reservaForm" class="reveal space-y-5 bg-white rounded-3xl p-6 md:p-10 shadow-2xl border-t-8" style="border-color:var(--coral)">
+      <div class="grid sm:grid-cols-2 gap-5">
+        <div>
+          <label class="text-xs font-bold uppercase tracking-widest text-teal">Nombre</label>
+          <input required id="f-nombre" type="text" placeholder="Tu nombre" class="field mt-2 w-full px-4 py-3 text-sm font-medium">
+        </div>
+        <div>
+          <label class="text-xs font-bold uppercase tracking-widest text-teal">Teléfono</label>
+          <input id="f-tel" type="tel" placeholder="Opcional" class="field mt-2 w-full px-4 py-3 text-sm font-medium">
+        </div>
+        <div>
+          <label class="text-xs font-bold uppercase tracking-widest text-teal">Fecha</label>
+          <input required id="f-fecha" type="date" class="field mt-2 w-full px-4 py-3 text-sm font-medium">
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="text-xs font-bold uppercase tracking-widest text-teal">Hora</label>
+            <input required id="f-hora" type="time" value="20:00" class="field mt-2 w-full px-4 py-3 text-sm font-medium">
+          </div>
+          <div>
+            <label class="text-xs font-bold uppercase tracking-widest text-teal">Personas</label>
+            <select id="f-personas" class="field mt-2 w-full px-4 py-3 text-sm font-medium">
+              <option>2</option><option>3</option><option>4</option><option>5</option>
+              <option>6</option><option>8</option><option>10</option><option>+10 (evento)</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="text-xs font-bold uppercase tracking-widest text-teal">Zona</label>
+          <select id="f-zona" class="field mt-2 w-full px-4 py-3 text-sm font-medium">
+            <option>Sin preferencia</option><option>Terraza exterior</option>
+            <option>Salón interior</option><option>Barra</option><option>Salón privado</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-xs font-bold uppercase tracking-widest text-teal">Ocasión (opcional)</label>
+          <input id="f-ocasion" type="text" placeholder="Cumpleaños, aniversario..." class="field mt-2 w-full px-4 py-3 text-sm font-medium">
+        </div>
+      </div>
+      <div>
+        <label class="text-xs font-bold uppercase tracking-widest text-teal">Mensaje adicional</label>
+        <textarea id="f-nota" rows="3" placeholder="Alergias, peticiones especiales..." class="field mt-2 w-full px-4 py-3 text-sm font-medium resize-none"></textarea>
+      </div>
+      <button type="submit"
+              class="w-full bg-[#25D366] hover:brightness-110 text-white font-bold py-4 rounded-xl uppercase tracking-widest text-sm transition-all hover:scale-[1.01] inline-flex items-center justify-center gap-2 shadow-lg shadow-[#25D366]/40">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.5 0 1.47 1.07 2.9 1.22 3.1.15.2 2.1 3.2 5.1 4.49.71.31 1.27.49 1.7.63.72.23 1.37.2 1.88.12.57-.09 1.76-.72 2.01-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.35M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.87 9.87 0 0 0 4.79 1.22c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2"/></svg>
+        Enviar reserva por WhatsApp
+      </button>
+      <p class="text-center text-xs font-medium" style="color:#5b4150">Al enviar se abrirá WhatsApp con el mensaje de tu reserva listo.</p>
+    </form>
+  </div>
+</section>
+
+<!-- ============ CONTACTO / FOOTER ============ -->
+<footer id="contacto" class="py-14" style="background:var(--plum)">
+  <div class="max-w-7xl mx-auto px-5 grid md:grid-cols-3 gap-10 text-sm">
+    <div>
+      <p class="font-display text-2xl font-black"><span class="text-mango">La Terraza</span> <span class="text-white font-semibold">Bar & Cocina</span></p>
+      <p class="mt-3 font-medium" style="color:#d9b8c8">Coctelería de autor y cocina de temporada desde 2012.</p>
+    </div>
+    <div>
+      <p class="uppercase tracking-widest text-mango text-xs font-bold mb-3">Horarios</p>
+      <p class="font-medium" style="color:#d9b8c8">Martes – Jueves · 6 pm – 1 am<br>Viernes – Sábado · 6 pm – 3 am<br>Domingo · 1 pm – 10 pm</p>
+    </div>
+    <div>
+      <p class="uppercase tracking-widest text-mango text-xs font-bold mb-3">Contacto</p>
+      <p class="font-medium" style="color:#d9b8c8">Av. de los Cerezos 42, Centro<br>+52 55 1234 5678 · <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="543c3b383514383520312626352e357a363526">[email&#160;protected]</a></p>
+      <a id="waFooter" href="#" target="_blank" rel="noopener" class="inline-flex items-center gap-2 mt-4 bg-[#25D366] text-white font-bold text-xs uppercase tracking-widest px-5 py-2.5 rounded-full hover:brightness-110 transition-all">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.5 0 1.47 1.07 2.9 1.22 3.1.15.2 2.1 3.2 5.1 4.49.71.31 1.27.49 1.7.63.72.23 1.37.2 1.88.12.57-.09 1.76-.72 2.01-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.35M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.87 9.87 0 0 0 4.79 1.22c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2"/></svg>
+        Escríbenos por WhatsApp
+      </a>
+    </div>
+  </div>
+  <p class="text-center text-xs font-medium mt-10" style="color:#8a5f75">© 2026 La Terraza Bar & Cocina. Todos los derechos reservados.</p>
+</footer>
+
+<!-- WhatsApp flotante -->
+<a id="waFloat" href="#" target="_blank" rel="noopener"
+   class="wa-float fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-[#25D366] flex items-center justify-center shadow-xl hover:scale-110 transition-transform"
+   aria-label="Reservar por WhatsApp">
+  <svg class="w-7 h-7 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.5 0 1.47 1.07 2.9 1.22 3.1.15.2 2.1 3.2 5.1 4.49.71.31 1.27.49 1.7.63.72.23 1.37.2 1.88.12.57-.09 1.76-.72 2.01-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.35M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.87 9.87 0 0 0 4.79 1.22c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2"/></svg>
+</a>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+/* ================= CONFIG ================= */
+/* Cambia este número por el WhatsApp real del bar (con código de país, sin + ni espacios) */
+const WHATSAPP_NUMBER = "5215512345678";
+
+/* ================= NAVEGACIÓN SUAVE (misma pestaña, nunca nueva página) ================= */
+document.querySelectorAll("a[data-scroll]").forEach(link => {
+  link.addEventListener("click", e => {
+    e.preventDefault();              // evita que el navegador trate el enlace como navegación normal
+    const target = document.querySelector(link.getAttribute("href"));
+    if (!target) return;
+    const top = target.getBoundingClientRect().top + window.scrollY - 64; // compensa la altura del navbar
+    window.scrollTo({ top, behavior: "smooth" });
+    history.replaceState(null, "", link.getAttribute("href")); // actualiza el # sin recargar
+  });
+});
+
+/* ================= MENÚ ================= */
+const MENU = {
+  cocteles: [
+    { n:"Negroni de la Casa", d:"Gin, vermut rojo y bitter artesanal, servido en roca grande.", p:180, tag:"Clásico" },
+    { n:"Margarita de Mango & Tajín", d:"Tequila reposado, mango natural, lima y escarchado de tajín.", p:160, tag:"De temporada" },
+    { n:"Old Fashioned Ahumado", d:"Bourbon, bitters de cacao y humo de roble al momento.", p:210, tag:"Firma" },
+    { n:"Mezcalita de Frutos Rojos", d:"Mezcal joven, mermelada de frutos rojos y toque de habanero.", p:175, tag:"Picante" },
+    { n:"Espresso Martini", d:"Vodka, licor de café y espresso doble cremoso.", p:170, tag:"Post-cena" },
+    { n:"Spritz de la Terraza", d:"Aperitivo de la casa, prosecco y soda con romero quemado.", p:150, tag:"Refrescante" },
+  ],
+  destilados: [
+    { n:"Whisky Single Malt 12 años", d:"2 oz · servido solo o en las rocas.", p:220, tag:"Escocia" },
+    { n:"Mezcal Artesanal Joven", d:"2 oz · ensamble espadín-cuishe, acompañado de sal de gusano.", p:190, tag:"Oaxaca" },
+    { n:"Tequila Reposado", d:"2 oz · barrica de roble blanco, notas de vainilla.", p:180, tag:"Jalisco" },
+    { n:"Ron Añejo 15 años", d:"2 oz · Caribe, madera dulce y especias.", p:200, tag:"Premium" },
+    { n:"Cerveza Artesanal de la Casa", d:"Lager o IPA de cervecería local, 355 ml.", p:95, tag:"Local" },
+    { n:"Vino de la Semana", d:"Copa 5 oz · selección rotativa de nuestra cava.", p:140, tag:"Cava" },
+  ],
+  entrantes: [
+    { n:"Tacos de Arrachera (3 pzas)", d:"Tortilla de maíz, guacamole, cebolla curtida y salsa de la casa.", p:165, tag:"Para compartir" },
+    { n:"Alitas BBQ & Miel Chipotle", d:"500 g, aderezo ranch casero.", p:180, tag:"Favorito" },
+    { n:"Carpaccio de Salmón", d:"Aceite de trufa, alcaparras, rúgula y parmesano.", p:190, tag:"Fresco" },
+    { n:"Nachos La Terraza", d:"Totopos, queso fundido, frijoles, pico de gallo y crema.", p:150, tag:"Para compartir" },
+    { n:"Croquetas de Jamón Ibérico", d:"Con alioli de limón asado (6 piezas).", p:145, tag:"Entrada" },
+    { n:"Queso Fundido con Chorizo", d:"Queso manchego gratinado, chorizo español y tortillas.", p:160, tag:"Clásico" },
+  ],
+  principales: [
+    { n:"Rib Eye 400 g", d:"Corte madurado 28 días, mantequilla de hierbas y papas rústicas.", p:480, tag:"A la parrilla" },
+    { n:"Pulpo Anticuchero", d:"Papa confitada, emulsión de ají amarillo y brotes.", p:390, tag:"Del mar" },
+    { n:"Risotto de Hongos", d:"Arborio, tres hongos, parmesano y aceite de trufa.", p:320, tag:"Vegetariano" },
+    { n:"Burger La Terraza", d:"200 g de res, queso cheddar madurado, tocino y papas trufadas.", p:290, tag:"Firma" },
+    { n:"Salmón a la Parrilla", d:"Mantequilla de miso, espárragos y limón asado.", p:360, tag:"Del mar" },
+    { n:"Costillas BBQ (1 kg)", d:"Cocción lenta 8 horas, salsa BBQ de la casa y elote.", p:420, tag:"Para compartir" },
+  ],
+  postres: [
+    { n:"Volcán de Chocolate", d:"Centro líquido, helado de vainilla y frutos rojos.", p:130, tag:"Caliente" },
+    { n:"Crème Brûlée de Café", d:"Azúcar caramelizada y biscotti de almendra.", p:120, tag:"Clásico" },
+    { n:"Cheesecake de Maracuyá", d:"Base de galleta, coulis de maracuyá natural.", p:125, tag:"Ácido-dulce" },
+    { n:"Churros con Chocolate", d:"Canela, azúcar y chocolate espeso caliente (6 piezas).", p:110, tag:"Para compartir" },
+  ],
+};
+
+const TAG_COLORS = {
+  "Clásico":"#0E8388","De temporada":"#FF5C39","Firma":"#FFB020","Picante":"#E63946","Post-cena":"#3D1D2E",
+  "Refrescante":"#0E8388","Escocia":"#3D1D2E","Oaxaca":"#FF5C39","Jalisco":"#0E8388","Premium":"#FFB020",
+  "Local":"#0E8388","Cava":"#7A3FA0","Para compartir":"#FF5C39","Favorito":"#FFB020","Fresco":"#0E8388",
+  "Entrada":"#3D1D2E","A la parrilla":"#E63946","Del mar":"#0E8388","Vegetariano":"#3E9B4F",
+  "Caliente":"#E63946","Ácido-dulce":"#FF5C39"
+};
+
+const grid = document.getElementById("menu-grid");
+function renderMenu(tab){
+  grid.innerHTML = MENU[tab].map(item => `
+    <div class="menu-card p-6">
+      <span class="inline-block text-[10px] font-bold uppercase tracking-widest text-white rounded-full px-3 py-1" style="background:${TAG_COLORS[item.tag] || '#FF5C39'}">${item.tag}</span>
+      <h3 class="font-display text-xl font-black mt-4" style="color:var(--plum)">${item.n}</h3>
+      <p class="text-sm font-medium mt-2 leading-relaxed" style="color:#5b4150">${item.d}</p>
+      <div class="flex items-end gap-3 mt-5">
+        <span class="price-line flex-1"></span>
+        <span class="font-display text-2xl font-black text-coral">$${item.p}</span>
+      </div>
+    </div>`).join("");
+}
+renderMenu("cocteles");
+
+document.querySelectorAll(".tab-btn").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    document.querySelectorAll(".tab-btn").forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+    renderMenu(btn.dataset.tab);
+  });
+});
+
+/* Marquesina */
+const mqText = "Coctelería de autor ✦ Cocina de temporada ✦ Música en vivo ✦ Happy hour 2x1 ✦ Reservas por WhatsApp ✦ ";
+document.getElementById("mq1").textContent = mqText.repeat(3);
+document.getElementById("mq2").textContent = mqText.repeat(3);
+
+/* Aparición al hacer scroll */
+const io = new IntersectionObserver(es => es.forEach(e => e.isIntersecting && e.target.classList.add("visible")), {threshold:.12});
+document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+
+/* Contadores */
+const counterIO = new IntersectionObserver(es => es.forEach(e=>{
+  if(!e.isIntersecting) return;
+  const el = e.target, end = +el.dataset.count; counterIO.unobserve(el);
+  let cur = 0; const step = Math.max(1, Math.round(end/60));
+  const t = setInterval(()=>{ cur += step; if(cur >= end){ cur = end; clearInterval(t);} el.textContent = cur + "+"; }, 25);
+}), {threshold:.5});
+document.querySelectorAll("[data-count]").forEach(el => counterIO.observe(el));
+
+/* WhatsApp */
+function buildWAUrl(text){
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
+}
+document.getElementById("waFloat").href = buildWAUrl("Hola, quisiera hacer una reserva en La Terraza Bar & Cocina.");
+document.getElementById("waFooter").href = buildWAUrl("Hola, quisiera información sobre La Terraza Bar & Cocina.");
+
+document.getElementById("reservaForm").addEventListener("submit", e=>{
+  e.preventDefault();
+  const v = id => document.getElementById(id).value.trim();
+  const fecha = v("f-fecha");
+  const fechaTxt = fecha ? new Date(fecha + "T12:00:00").toLocaleDateString("es-MX",{weekday:"long", day:"numeric", month:"long", year:"numeric"}) : "";
+  const msg =
+`Hola, quisiera hacer una reserva en La Terraza Bar & Cocina.
+
+Nombre: ${v("f-nombre")}
+Fecha: ${fechaTxt}
+Hora: ${v("f-hora")}
+Personas: ${v("f-personas")}
+Zona: ${v("f-zona")}${v("f-ocasion") ? `\nOcasión: ${v("f-ocasion")}` : ""}${v("f-nota") ? `\nNota: ${v("f-nota")}` : ""}${v("f-tel") ? `\nMi teléfono: ${v("f-tel")}` : ""}
+
+Quedo pendiente de su confirmación. ¡Gracias!`;
+  window.open(buildWAUrl(msg), "_blank");
+});
+</script>
+</body>
+</html>
